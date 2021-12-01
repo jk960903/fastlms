@@ -1,1 +1,14 @@
+spring:
+  thymeleaf:
+    suffix: .html
+    prefix: classpath:/templates/
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/diary?characterEncoding=UTF-8&serverTimezone=UTC
+    username:root
+    password:!@#ajun1173
+
+  jpa:
+    database: mysql
 
