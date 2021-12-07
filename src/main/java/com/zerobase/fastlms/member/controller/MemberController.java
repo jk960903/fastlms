@@ -5,6 +5,7 @@ import com.zerobase.fastlms.member.entity.Member;
 import com.zerobase.fastlms.member.model.MemberInput;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -24,13 +25,12 @@ public class MemberController {
     }
 
     @PostMapping("/member/register")
-    public String registerSubmit(HttpServletRequest request, HttpServletResponse response, MemberInput parameter){
+    public String registerSubmit(Model model, HttpServletRequest request, HttpServletResponse response, MemberInput parameter){
         Member member = new Member();
-        try{
-            memberService.register(parameter);
-        }catch(Exception e){
 
-        }
+        boolean result = memberService.register(parameter);
+
+        model.addAttribute("result", result);
         return "member/register_complete";
     }
 }
