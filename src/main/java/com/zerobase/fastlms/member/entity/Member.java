@@ -1,15 +1,19 @@
 package com.zerobase.fastlms.member.entity;
 
-import lombok.Data;
+import lombok.*;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.time.LocalDateTime;
 
-@Data
+@AllArgsConstructor
+@Builder
+@Getter
+@Setter
 @Entity
 @Table(name="members")
+@NoArgsConstructor
 public class Member {
 
     @Id
@@ -22,4 +26,12 @@ public class Member {
     private String password;
 
     private LocalDateTime Regdate;
+
+    private boolean emailAuthYn;
+
+    private String emailAuthKey;//회원가입할때 만드는 키
+
+    private LocalDateTime emailAuthDt;
+
+
 }
