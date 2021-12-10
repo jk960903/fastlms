@@ -3,7 +3,9 @@ package com.zerobase.fastlms.member.Service;
 import com.zerobase.fastlms.Component.MailComponents;
 import com.zerobase.fastlms.member.Repostiory.MemberRepository;
 import com.zerobase.fastlms.member.entity.Member;
+import com.zerobase.fastlms.member.exception.MemberNotEmailAuthException;
 import com.zerobase.fastlms.member.model.MemberInput;
+import com.zerobase.fastlms.member.model.ResetPasswordInput;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -82,6 +84,7 @@ public class MemberServiceImpl implements MemberService{
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         //데이터베이스에 맞게 구현
         Optional<Member> optionalMember = memberRepository.findById(username);
+
         if(!optionalMember.isPresent()){
             throw new UsernameNotFoundException("회원 정보가 존재하지 않습니다.");
         }
@@ -92,8 +95,39 @@ public class MemberServiceImpl implements MemberService{
 
         grantedAuthorities.add(new SimpleGrantedAuthority("ROLE_USER"));
 
+        //이메일 인증이 되지않음
+        if(!member.isEmailAuthYn()){
+            throw new MemberNotEmailAuthException("이메일을 활성화 이후에 로그인 하여 주세요");
+        }
+
         System.out.println(member.getPassword());
         System.out.println(member.getUserId());
         return new User(member.getUserId(),member.getPassword(),grantedAuthorities);
+    }
+
+    @Override
+    public boolean sendResetPassword(ResetPasswordInput parameter){
+        Optional<Member> optionalMember = memberRepository.findByUserIdAndUserName(parameter.getUserId(), parameter.getUserName());
+
+        if(!optionalMember.isPresent()){
+            throw new UsernameNotFoundException("회원 정보가 존재하지 않습니다.");
+        }
+        Member member = optionalMember.get();
+
+        String uuid = UUID.randomUUID().toString();
+
+        member.setResetPasswordKey(uuid);
+        member.setResetPasswordLimitDt(LocalDateTime.now().plusDays(1));
+
+        memberRepository.save(member);
+
+        String email = parameter.getUserId();
+        String subject = "fastlms 비밀 번호 초기화 메일 입니다.";
+        String text = "<p>fastlms 비밀번호 초기화 메일 입니다.<p><p> 아래 링크를 클릭하셔서 비밀번호를 초기화 해주세요 </p>"
+                +"<div><a target ='_blank' href='http://localhost:8080/member/find/reset_password?id="+uuid+"'>비밀번호 초기화 링크 </a></div>";
+
+        mailComponents.sendMail(email,subject,text);
+
+        return true;
     }
 }

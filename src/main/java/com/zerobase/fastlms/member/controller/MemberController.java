@@ -3,6 +3,7 @@ package com.zerobase.fastlms.member.controller;
 import com.zerobase.fastlms.member.Service.MemberService;
 import com.zerobase.fastlms.member.entity.Member;
 import com.zerobase.fastlms.member.model.MemberInput;
+import com.zerobase.fastlms.member.model.ResetPasswordInput;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,6 +30,21 @@ public class MemberController {
     public String register(){
 
         return "member/register";
+    }
+
+    @GetMapping("/member/find/password")
+    public String findPassword(){
+        return "member/find/password";
+    }
+
+    @PostMapping("/member/find/password")
+    public String findPasswordSubmit(ResetPasswordInput resetPasswordInput,
+                                    Model model){
+
+        boolean result = memberService.sendResetPassword(resetPasswordInput);
+        model.addAttribute("result",result);
+        return "redirect:/";
+
     }
 
     @PostMapping("/member/register")

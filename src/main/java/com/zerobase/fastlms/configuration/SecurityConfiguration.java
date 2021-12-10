@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @RequiredArgsConstructor
 @Configuration
@@ -36,9 +37,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
         //페이지의 권한 설정 가능
         http.authorizeRequests()
-                .antMatchers("/","/member/register",
-                        "/member/register_complete"
-                        ,"/member/email-auth")
+                .antMatchers("/"
+                        ,"/member/register"
+                        ,"/member/email-auth"
+                        ,"/member/find/password"
+                        ,"/member/find/find_password_result"
+                        ,"/member/find/reset_password"
+                )
                 .permitAll();
 
         //로그인 관련된 부분 설정
@@ -47,6 +52,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .failureHandler(getFailureHandler())
                 .permitAll();
 
+        http.logout()
+                .logoutRequestMatcher(new AntPathRequestMatcher("/member/logout"))
+                .logoutSuccessUrl("/")
+                .invalidateHttpSession(true);
 
         super.configure(http);
     }
