@@ -40,10 +40,14 @@ public class MemberController {
     @PostMapping("/member/find/password")
     public String findPasswordSubmit(ResetPasswordInput resetPasswordInput,
                                     Model model){
+        boolean result = false;
+        try{
+            result = memberService.sendResetPassword(resetPasswordInput);
+        }catch(Exception e){
 
-        boolean result = memberService.sendResetPassword(resetPasswordInput);
+        }
         model.addAttribute("result",result);
-        return "redirect:/";
+        return "/member/find/reset_password_result";
 
     }
 
@@ -70,5 +74,10 @@ public class MemberController {
     @GetMapping("/member/info")
     public String memberInfo(HttpServletRequest request){
         return "/member/member_info";
+    }
+
+    @GetMapping("/member/find/reset_password")
+    public String resetPassword(){
+        return "/member/find/reset_password";
     }
 }
