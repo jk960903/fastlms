@@ -12,6 +12,8 @@ spring:
   jpa:
     database: mysql
     show-sql: true
+    hibernate:
+      ddl-auto: update
   mail:
     host: smtp.gmail.com
     port: 587
