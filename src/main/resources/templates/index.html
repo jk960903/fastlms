@@ -9,3 +9,80 @@
     <div th:replace="/fragment/layout.html :: fragment-body-menu"></div>
 </body>
 </html>
+<script type="text/javascript">
+    $(document).ready(function (){
+        $.ajax({
+            type:'GET',
+            url: '/app/notce/noticelist',
+            data:{},
+            success: function(response){
+                console.log(response);
+                for(var i = 0; i< response.length; i++){
+                    $('#notice_list').append("<a href='/app/notice/noticedetail.html?notice_id="+response[0].fields.notice_id+"'><li>"+response[0].fields.notice_title+"</li>");
+                }
+            }
+
+
+        });
+
+    });
+
+
+    $(document).ready(function(){
+        const url =new URL(window.location.href);
+
+        const urlParams = url.searchParams;
+
+        const parameter = urlParams.get('notice_id')
+
+        $.ajax({
+            type:'GET',
+            url: '/app/notice/getnoticedetail',
+            data:{
+                notice_id : parameter
+            },
+            success: function(response){
+                console.log(response);
+            }
+        });
+
+        $.ajax({
+            type:'GET',
+            url: '/app/notice/getnoticecomment',
+            data:{
+                notice_id : parameter
+            },
+            success: function(response){
+                for(var i = 0 ; i<response.length; i++){
+                    $('#comment_list').append("<li>");
+                    $('#comment_list').append("<p> 작성자 :"+response[i].fields.comment_writer+"</p>");
+                    $('#comment_list').append("<p>"+response[i].fields.comment_content+"</p>");
+                    $('#comment_list').append("</li>");
+                }
+            }
+        });
+        $('#addcommnet').click(function(){
+
+            var comment = $('#comment_input').innerText;
+            $.ajax({
+                type:'POST',
+                url:'/app/notice/addcomment',
+                data:{
+                    comment : comment,
+                    notice_id : parameter
+                },
+                success: function(response){
+                    if(response == "LOGIN FIRST"){
+                        alert("LOGIN FIRST");
+                        return;
+                    }
+                  console.log(response);
+                }
+            });
+
+
+        });
+    });
+
+
+</script>
