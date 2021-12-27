@@ -36,4 +36,11 @@ public class Member {
     private String resetPasswordKey;
 
     private LocalDateTime resetPasswordLimitDt;
+
+    //관리자 여부
+    //회원에 따르 ROLE 을 지정할것이냐
+    // 회원 레벨이 회원 / 준회원 / 특별회원 등등 / 관리자
+    // ROLE USER / SEMI_USER / SPECIAL_USER / ADMIN
+
+    private boolean adminYn;
 }
