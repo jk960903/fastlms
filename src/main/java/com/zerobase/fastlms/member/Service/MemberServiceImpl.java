@@ -75,7 +75,7 @@ public class MemberServiceImpl implements MemberService{
 
         Member member = optionalMember.get();
         if(member.isEmailAuthYn()){
-
+            return false;
         }
         member.setEmailAuthYn(true);
         member.setEmailAuthDt(LocalDateTime.now());
@@ -101,6 +101,9 @@ public class MemberServiceImpl implements MemberService{
         //이메일 인증이 되지않음
         if(!member.isEmailAuthYn()){
             throw new MemberNotEmailAuthException("이메일을 활성화 이후에 로그인 하여 주세요");
+        }
+        if(member.isAdminYn()){
+            grantedAuthorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
         }
 
         System.out.println(member.getPassword());
@@ -180,5 +183,9 @@ public class MemberServiceImpl implements MemberService{
 
 
         return true;
+    }
+
+    public List<Member> list(){
+        return memberRepository.findAll();
     }
 }

@@ -1,6 +1,7 @@
 package com.zerobase.fastlms.member.controller;
 
 import com.zerobase.fastlms.member.Service.MemberService;
+import com.zerobase.fastlms.member.model.MemberInput;
 import com.zerobase.fastlms.member.model.ResetPasswordInput;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -50,11 +51,11 @@ public class MemberController {
     }
 
     @PostMapping("/member/register")
-    public String registerSubmit(Model model, HttpServletRequest request, HttpServletResponse response, ResetPasswordInput parameter){
+    public String registerSubmit(Model model, HttpServletRequest request, HttpServletResponse response, MemberInput parameter){
         boolean result = false;
 
         try{
-            result = memberService.sendResetPassword(parameter);
+            result = memberService.register(parameter);
         }catch(Exception e){
 
         }
