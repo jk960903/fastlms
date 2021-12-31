@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
   <title>관리자 화면</title>
@@ -37,12 +37,8 @@
         <th>관리자 여부</th>
       </tr>
     </thead>
-    <tbody>
-      <tr> th:each="product : ${list}">
-        <td>1</td>
-        <td th:text=""${x.userId}
-      </tr>
-    </tbody>
+    <div th:text="${list}"></div>
+    
   </table>
 </div>
 </body>
