@@ -1,7 +1,9 @@
 package com.zerobase.fastlms.admin.member.controller;
 
+import com.zerobase.fastlms.admin.dto.MemberDto;
 import com.zerobase.fastlms.member.Service.MemberService;
 import com.zerobase.fastlms.member.entity.Member;
+import com.zerobase.fastlms.temp.Example;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 
@@ -18,10 +20,21 @@ public class AdminMemberController {
 
     @GetMapping("/admin/member/list.do")
     public String list(Model model){
-        List<Member> members = memberService.list();
+        List<MemberDto> members = memberService.list();
 
         model.addAttribute("list",members);
 
         return "admin/member/list";
+    }
+
+    @GetMapping("/admin/api/test")
+    public String test(){
+        Example example = new Example();
+        try {
+            example.add();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return "Index";
     }
 }
