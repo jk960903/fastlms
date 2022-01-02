@@ -1,6 +1,7 @@
 package main.controller;
 
 import com.zerobase.fastlms.Component.MailComponents;
+import com.zerobase.fastlms.temp.Example;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -11,7 +12,7 @@ public class MainController {
     private final MailComponents mailComponents;
     @RequestMapping("/")
     public String index(){
-        mailComponents.sendMailTest();
+        //mailComponents.sendMailTest();
 
         return "Index";
     }
@@ -19,5 +20,16 @@ public class MainController {
     @RequestMapping("/error/denied")
     public String errorDenied(){
         return "/error/denied";
+    }
+
+    @RequestMapping("/test")
+    public String test(){
+        Example example = new Example();
+        try {
+            example.add();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return "Index";
     }
 }
