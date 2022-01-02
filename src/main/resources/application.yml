@@ -28,3 +28,11 @@ spring:
 logging:
   level:
     root: info
+
+#mybatis 설정
+mybatis:
+  mapper-locations: mybatis/**/*.xml #my batis 밑에 잇는 xml파일로 설정
+  configuration:
+    map-underscore-to-camel-case: true #스네이크 표기법을 카멜표기법으로 표현가능하게
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+

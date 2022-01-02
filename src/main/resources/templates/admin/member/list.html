@@ -8,14 +8,13 @@
       width : 100%;
       border-collapse: collapse;
     }
-    .list table th, list table td{
+    .list table th, .list table td{
       border:solid 1px #000;
     }
   </style>
 </head>
 <body>
 <h1>관리자 회원 관리</h1>
-<div th:replace="/fragment/layout.html :: fragment-body-menu"></div>
 <div>
   <a href="/admin/main">관리자 메인</a>
   <a href="/admin/member/list.do">회원 관리 목록</a>
@@ -38,10 +37,24 @@
       </tr>
     </thead>
     <tbody>
-      <tr> th:each="product : ${list}">
+    <tr th:each ="x:${list}">
         <td>1</td>
-        <td th:text=""${x.userId}
-      </tr>
+        <td th:text="${x.userId}"></td>
+        <td th:text="${x.userName}"></td>
+        <td th:text="${x.phone}"></td>
+        <td>
+          <p th:if="${x.emailAuthYn}">Y</p>
+          <p th:if="${x.emailAuthYn} eq false">N</p>
+        </td>
+        <td>
+          <p th:text="${x.regdate}">20210101</p>
+        </td>
+        <td>
+            <p th:if="${x.adminYn}">Y</p>
+            <p th:if="${x.adminYn} eq false">N</p>
+        </td>
+
+    </tr>
     </tbody>
   </table>
 </div>
