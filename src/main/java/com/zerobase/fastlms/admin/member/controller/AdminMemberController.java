@@ -1,6 +1,7 @@
 package com.zerobase.fastlms.admin.member.controller;
 
 import com.zerobase.fastlms.admin.dto.MemberDto;
+import com.zerobase.fastlms.admin.model.MemberParam;
 import com.zerobase.fastlms.member.Service.MemberService;
 import com.zerobase.fastlms.member.entity.Member;
 import com.zerobase.fastlms.temp.Example;
@@ -19,22 +20,13 @@ public class AdminMemberController {
     private final MemberService memberService;
 
     @GetMapping("/admin/member/list.do")
-    public String list(Model model){
-        List<MemberDto> members = memberService.list();
+    public String list(Model model, MemberParam memberParam){
+        List<MemberDto> members = memberService.list(memberParam);
 
         model.addAttribute("list",members);
 
         return "admin/member/list";
     }
 
-    @GetMapping("/admin/api/test")
-    public String test(){
-        Example example = new Example();
-        try {
-            example.add();
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-        return "Index";
-    }
+
 }
