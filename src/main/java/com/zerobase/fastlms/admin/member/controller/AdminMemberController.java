@@ -27,6 +27,7 @@ public class AdminMemberController {
 
         return "admin/member/list";
     }
+    ////리베이스용 테스트 커밋
 
 
 }
