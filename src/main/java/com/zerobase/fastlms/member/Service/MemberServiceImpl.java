@@ -4,7 +4,9 @@ import com.zerobase.fastlms.Component.MailComponents;
 import com.zerobase.fastlms.admin.dto.MemberDto;
 import com.zerobase.fastlms.admin.mapper.MemberMapper;
 import com.zerobase.fastlms.admin.model.MemberParam;
+import com.zerobase.fastlms.member.Repostiory.EmailRepository;
 import com.zerobase.fastlms.member.Repostiory.MemberRepository;
+import com.zerobase.fastlms.member.entity.EmailEntity;
 import com.zerobase.fastlms.member.entity.Member;
 import com.zerobase.fastlms.member.exception.MemberNotEmailAuthException;
 import com.zerobase.fastlms.member.model.MemberInput;
@@ -34,6 +36,8 @@ public class MemberServiceImpl implements MemberService{
     private final MailComponents mailComponents;
 
     private final MemberMapper memberMapper;
+
+    private final EmailRepository emailRepository;
     @Override
     public boolean register(MemberInput parameter) {
 
@@ -60,11 +64,18 @@ public class MemberServiceImpl implements MemberService{
 
         memberRepository.save(member);
 
+        EmailEntity emailEntity = EmailEntity.builder().
+                                    userId(member.getUserId()).EmailTitle("fastlms 사이트 가입을 축하드립니다. ")
+                                    .EmailContent("<p>"+member.getUserId()+"님 fastlms 사이트 가입을 축하드립니다.</p>\n<p>아래 링크를 클릭하셔서 가입을 완료하세요.</p>\n"
+                                            + "<div><a target='_blank' href='http://localhost:8080/member/email-auth?id="+uuid+"'>가입완료</a></div>").build();
+
+        emailEntity = emailRepository.save(emailEntity);
         String email = parameter.getUserId();
-        String subject = "fastlms 사이트 가입을 축하드립니다. ";
+        /*String subject = "fastlms 사이트 가입을 축하드립니다. ";
         String text = "<p>fastlms 사이트 가입을 축하드립니다.</p><p>아래 링크를 클릭하셔서 가입을 완료하세요</p>"
-                 + "<div><a target='_blank' href='http://localhost:8080/member/email-auth?id="+uuid+"'>가입완료</a></div>";
-        mailComponents.sendMail(email,subject,text);
+                 + "<div><a target='_blank' href='http://localhost:8080/member/email-auth?id="+uuid+"'>가입완료</a></div>";*/
+
+        mailComponents.sendMail(emailEntity.getId());
 
         return true;
     }
@@ -132,12 +143,18 @@ public class MemberServiceImpl implements MemberService{
 
         memberRepository.save(member);
 
-        String email = parameter.getUserId();
+        /*String email = parameter.getUserId();
         String subject = "fastlms 비밀 번호 초기화 메일 입니다.";
         String text = "<p>fastlms 비밀번호 초기화 메일 입니다.<p><p> 아래 링크를 클릭하셔서 비밀번호를 초기화 해주세요 </p>"
-                +"<div><a target ='_blank' href='http://localhost:8080/member/find/reset_password?id="+uuid+"'>비밀번호 초기화 링크 </a></div>";
-
-        mailComponents.sendMail(email,subject,text);
+                +"<div><a target ='_blank' href='http://localhost:8080/member/find/reset_password?id="+uuid+"'>비밀번호 초기화 링크 </a></div>";*/
+        EmailEntity emailEntity = EmailEntity.builder()
+                .userId(member.getUserId())
+                .EmailTitle(member.getUserId() + "님 fastlms 비밀 번호 초기화 메일 입니다.")
+                .EmailContent("<p>fastlms 비밀번호 초기화 메일 입니다.<p><p> 아래 링크를 클릭하셔서 비밀번호를 초기화 해주세요 </p>"
+                                +"<div><a target ='_blank' href='http://localhost:8080/member/find/reset_password?id="+uuid+"'>비밀번호 초기화 링크 </a></div>")
+                .build();
+        emailEntity = emailRepository.save(emailEntity);
+        mailComponents.sendMail(emailEntity.getId());
 
         return true;
     }
