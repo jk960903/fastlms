@@ -1,5 +1,7 @@
 package com.zerobase.fastlms.Component;
 
+import com.zerobase.fastlms.member.Repostiory.EmailRepository;
+import com.zerobase.fastlms.member.entity.EmailEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -8,12 +10,14 @@ import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.stereotype.Component;
 
 import javax.mail.internet.MimeMessage;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Component
 public class MailComponents {
     private final JavaMailSender javaMailSender;
 
+    private final EmailRepository emailRepository;
     public void sendMailTest(){
         SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
         simpleMailMessage.setTo("jk960903@naver.com");
@@ -23,7 +27,7 @@ public class MailComponents {
         javaMailSender.send(simpleMailMessage);
     }
 
-    public boolean sendMail(String mail , String subject , String text){
+    public boolean sendMail(int id){
 
         boolean result = false;
 
@@ -31,9 +35,15 @@ public class MailComponents {
             @Override
             public void prepare(MimeMessage mimeMessage) throws Exception {
                 MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage,true,"UTF-8");
-                mimeMessageHelper.setTo(mail);
-                mimeMessageHelper.setSubject(subject);
-                mimeMessageHelper.setText(text,true);
+
+                Optional<EmailEntity> emailOption = emailRepository.findById(Integer.toString(id));
+                if(emailOption.isPresent()){
+                    EmailEntity email = emailOption.get();
+                    mimeMessageHelper.setTo(email.getUserId());
+                    mimeMessageHelper.setSubject(email.getEmailTitle());
+                    mimeMessageHelper.setText(email.getEmailContent(),true);
+                }
+
             }
         };
         try {
