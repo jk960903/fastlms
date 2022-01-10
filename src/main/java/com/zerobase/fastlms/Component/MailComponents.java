@@ -36,7 +36,8 @@ public class MailComponents {
             public void prepare(MimeMessage mimeMessage) throws Exception {
                 MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage,true,"UTF-8");
 
-                Optional<EmailEntity> emailOption = emailRepository.findById(Integer.toString(id));
+                Optional<EmailEntity> emailOption = emailRepository.findById(id);
+
                 if(emailOption.isPresent()){
                     EmailEntity email = emailOption.get();
                     mimeMessageHelper.setTo(email.getUserId());
