@@ -5,6 +5,7 @@ import com.zerobase.fastlms.admin.model.MemberParam;
 import com.zerobase.fastlms.member.Service.MemberService;
 import com.zerobase.fastlms.member.entity.Member;
 import com.zerobase.fastlms.temp.Example;
+import com.zerobase.fastlms.util.PageUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 
@@ -21,10 +22,25 @@ public class AdminMemberController {
 
     @GetMapping("/admin/member/list.do")
     public String list(Model model, MemberParam memberParam){
+        memberParam.init();
+
         List<MemberDto> members = memberService.list(memberParam);
 
-        model.addAttribute("list",members);
 
+
+
+        long totalCount = 0;
+
+        if(members != null && members.size() > 0 ){
+            totalCount = members.size();
+        }
+
+        String queryString = memberParam.getQueryString();
+        PageUtil pageUtil = new PageUtil(totalCount,memberParam.getPageSize(), memberParam.getPageIndex(), queryString);
+
+        model.addAttribute("paper",pageUtil.pager());
+        model.addAttribute("list",members);
+        model.addAttribute("totalCount",totalCount);
         return "admin/member/list";
     }
     ////리베이스용 테스트 커밋
