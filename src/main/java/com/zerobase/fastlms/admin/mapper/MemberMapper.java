@@ -10,5 +10,9 @@ import java.util.List;
 @Mapper
 public interface MemberMapper {
 
+
+    long selectListCount(MemberParam parammeter);
+
+
     List<MemberDto> selectList(MemberParam parameter);
 }

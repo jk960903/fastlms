@@ -12,9 +12,27 @@
       border:solid 1px #000;
     }
     .search-form{
+        position : relative;
         padding: 5px 0 10px 0;
         text-align: right;
     }
+    .search-form .total-count{
+        position : absolute;
+        left: 0; top :0;
+        height: 20px;
+        float : left;
+    }
+
+    .paper {
+        text-align: center;
+        margin-top : 20px;
+    }
+
+    .paper a.on{
+        font-weight: bold;
+        color : red;
+    }
+
   </style>
 </head>
 <body>
@@ -31,7 +49,8 @@
 
 <div class="list">
 
-    <div class=""search-form>
+    <div class="search-form">
+        <p class="total-count"><span th:text="${totalCount}"></span>개</p>
         <form method="get">
             <select name="searchType">
                 <option value="all">전체</option>
@@ -56,8 +75,9 @@
       </tr>
     </thead>
     <tbody>
-    <tr th:each ="x:${list}">
-        <td>1</td>
+    <tr th:each="x:${list}">
+
+        <td th:text="${x.Seq}"></td>
         <td th:text="${x.userId}"></td>
         <td th:text="${x.userName}"></td>
         <td th:text="${x.phone}"></td>
@@ -76,6 +96,9 @@
     </tr>
     </tbody>
   </table>
+    <div class="paper" th:utext="${paper}">
+
+    </div>
 </div>
 </body>
 </html>
