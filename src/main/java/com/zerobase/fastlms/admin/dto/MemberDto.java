@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 
 //entity 는 로우데이터 dto는 가공데이터라고 생각하면 될듯합니다.
 @Data
+@Builder
 public class MemberDto {
 
     String userId;

@@ -43,7 +43,18 @@ public class AdminMemberController {
         model.addAttribute("totalCount",totalCount);
         return "admin/member/list";
     }
-    ////리베이스용 테스트 커밋
+
+
+    @GetMapping("/admin/member/detail.do")
+    public String detail(Model model, MemberParam memberParam){
+        memberParam.init();
+
+        MemberDto memberDto = memberService.detail(memberParam.getUserId());
+
+        model.addAttribute("member",memberDto);
+
+        return "admin/member/detailpage";
+    }
 
 
 }

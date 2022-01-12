@@ -225,4 +225,27 @@ public class MemberServiceImpl implements MemberService{
         return list;
         //return memberRepository.findAll();
     }
+
+    @Override
+    public MemberDto detail(String userId) {
+        Optional<Member> optionalMember = memberRepository.findById(userId);
+        if(!optionalMember.isPresent()){
+            return null;
+        }
+        Member member = optionalMember.get();
+        MemberDto memberDto = MemberDto.builder()
+                .userId(member.getUserId())
+                .userName(member.getUserName())
+                .phone(member.getPhone())
+                .password(member.getPassword())
+                .adminYn(member.isAdminYn())
+                .regdate(member.getRegdate())
+                .emailAuthYn(member.isEmailAuthYn())
+                .emailAuthDt(member.getEmailAuthDt())
+                .emailAuthKey(member.getEmailAuthKey())
+                .resetPasswordKey(member.getResetPasswordKey())
+                .resetPasswordLimitDt(member.getResetPasswordLimitDt()).build();
+
+        return memberDto;
+    }
 }
