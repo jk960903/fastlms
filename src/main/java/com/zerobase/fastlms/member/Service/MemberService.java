@@ -2,9 +2,10 @@ package com.zerobase.fastlms.member.Service;
 
 import com.zerobase.fastlms.admin.dto.MemberDto;
 import com.zerobase.fastlms.admin.model.MemberParam;
-import com.zerobase.fastlms.member.entity.Member;
+import com.zerobase.fastlms.admin.model.MemberStatusInput;
 import com.zerobase.fastlms.member.model.MemberInput;
 import com.zerobase.fastlms.member.model.ResetPasswordInput;
+import com.zerobase.fastlms.admin.model.UpdateUserPasswordInput;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.util.List;
@@ -39,4 +40,15 @@ public interface MemberService extends UserDetailsService {
      * @return
      */
     MemberDto detail(String userId);
+
+    /**
+     * 회원 상태 변경
+     * @param memberStatusInput
+     * String userId
+     * String userStatus
+     * @return
+     */
+    boolean updateStatus(MemberStatusInput memberStatusInput);
+
+    boolean updatePassword(UpdateUserPasswordInput updateUserPasswordInput);
 }
