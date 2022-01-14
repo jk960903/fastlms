@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name="members")
 @NoArgsConstructor
-public class Member {
+public class Member implements MemberCode{
 
     @Id
     private String userId;
@@ -43,4 +43,8 @@ public class Member {
     // ROLE USER / SEMI_USER / SPECIAL_USER / ADMIN
 
     private boolean adminYn;
+
+
+    //이용가능 상태 ,정지 상태
+    private String userStatus;
 }

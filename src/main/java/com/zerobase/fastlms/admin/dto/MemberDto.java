@@ -7,6 +7,8 @@ import java.time.LocalDateTime;
 //entity 는 로우데이터 dto는 가공데이터라고 생각하면 될듯합니다.
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class MemberDto {
 
     String userId;
@@ -29,4 +31,6 @@ public class MemberDto {
     long totalCount;
 
     long seq;
+
+    String userStatus;
 }
