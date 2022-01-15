@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>관리자 화면</title>
+    <style>
+        .list table{
+            width : 100%;
+            border-collapse: collapse;
+        }
+        .list table th, .list table td{
+            border:solid 1px #000;
+        }
+        .search-form{
+            position : relative;
+            padding: 5px 0 10px 0;
+            text-align: right;
+        }
+        .search-form .total-count{
+            position : absolute;
+            left: 0; top :0;
+            height: 20px;
+            float : left;
+        }
+
+        .paper {
+            text-align: center;
+            margin-top : 20px;
+        }
+
+        .paper a.on{
+            font-weight: bold;
+            color : red;
+        }
+
+    </style>
+</head>
+<body>
+<h1>관리자 회원 관리</h1>
+<div th:replace="/fragments/layout.html :: admin-body-menu"></div>
+<div class="list">
+
+    <div class="search-form">
+        <form method="post" action="/admin/category/add.do">
+            <input type = "text" name ="categoryName" placeholder="카테고리 입력"/>
+            <button type="submit">추가</button>
+        </form>
+    </div>
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>카테고리명</th>
+            <th>순서</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="x:${list}">
+
+            <td th:text="${x.Seq}"></td>
+            <td>
+                <a th:text="${x.userId}" th:  href="${'detail.do?userId='+x.userID}"></a></td>
+            <td th:text="${x.userName}"></td>
+            <td th:text="${x.phone}"></td>
+            <td>
+                <p th:if="${x.emailAuthYn}">Y</p>
+                <p th:if="${x.emailAuthYn} eq false">N</p>
+            </td>
+            <td>
+                <p th:text="${x.regdate}">20210101</p>
+            </td>
+            <td>
+                <p th:if="${x.adminYn}">Y</p>
+                <p th:if="${x.adminYn} eq false">N</p>
+            </td>
+
+        </tr>
+        </tbody>
+    </table>
+    <div class="paper" th:utext="${paper}">
+
+    </div>
+</div>
+
+<div class="list">
+
+
+
+</div>
+</body>
+</html>
