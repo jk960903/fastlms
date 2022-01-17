@@ -1,4 +1,4 @@
-package com.zerobase.fastlms.admin.entity;
+package com.zerobase.fastlms.member.entity;
 
 import lombok.*;
 
@@ -6,22 +6,26 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
-@Entity
 @NoArgsConstructor
 @AllArgsConstructor
+@Entity
 @Builder
-public class Category {
+public class LoginHistory {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private Long seq;
 
-    private String categoryName;
+    private String userId;
 
-    private Integer sortValue;
+    private LocalDateTime loginDate;
 
-    private boolean usingYn;
+    private String ip;
+
+    private String userAgent;
+
 }

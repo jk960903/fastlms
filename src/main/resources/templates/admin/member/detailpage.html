@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <title>관리자 화면</title>
+    <script th:inline="javascript">
+        let count = 1;
+    </script>
     <style>
         .details table{
             width : 100%;
@@ -105,7 +108,33 @@
         <a href="list.do">목록</a>
 
     </div>
-
+    <div th:with ="seq=1">
+    <table>
+            <thead>
+            <tr>
+                <th>NO</th>
+                <th>
+                    로그인 일자
+                </th>
+                <th>
+                    접속한 IP
+                </th>
+                <th>
+                    접속 UserAgent
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="x : ${loginHistory}">
+                <td th:text="${seq}">1</td>
+                <td th:text="${x.loginDate}"></td>
+                <td th:text="${x.ip}">127.0.0.1</td>
+                <td th:text="${x.userAgent}">chrome</td>
+            </tr>
+            </tbody>
+            {seq}++
+    </table>
+    </div>
 </div>
 </body>
 </html>

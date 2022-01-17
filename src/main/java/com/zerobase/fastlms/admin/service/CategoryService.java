@@ -1,10 +1,14 @@
 package com.zerobase.fastlms.admin.service;
 
+import com.zerobase.fastlms.admin.dto.CategoryDto;
 import com.zerobase.fastlms.admin.model.CategoryDeleteParam;
 import com.zerobase.fastlms.admin.model.CategoryInsertParam;
 import com.zerobase.fastlms.admin.model.CategoryUpdateParam;
 
+import java.util.List;
+
 public interface CategoryService {
+    List<CategoryDto> list();
 
     /**
      * 카테고리 신규추가
