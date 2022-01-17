@@ -6,6 +6,7 @@ import com.zerobase.fastlms.admin.mapper.MemberMapper;
 import com.zerobase.fastlms.admin.model.MemberParam;
 import com.zerobase.fastlms.admin.model.MemberStatusInput;
 import com.zerobase.fastlms.member.Repostiory.EmailRepository;
+import com.zerobase.fastlms.member.Repostiory.LoginHistoryRepository;
 import com.zerobase.fastlms.member.Repostiory.MemberRepository;
 import com.zerobase.fastlms.member.entity.EmailEntity;
 import com.zerobase.fastlms.member.entity.Member;
@@ -25,6 +26,7 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -42,10 +44,11 @@ public class MemberServiceImpl implements MemberService{
     private final MemberMapper memberMapper;
 
     private final EmailRepository emailRepository;
+
     @Override
     public boolean register(MemberInput parameter) {
 
-        Optional<Member> optionalMember =memberRepository.findById(parameter.getUserId());
+        Optional<Member> optionalMember = memberRepository.findById(parameter.getUserId());
 
         if(optionalMember.isPresent()){
             //userId에 해당하는 데이터가 존재
@@ -115,6 +118,9 @@ public class MemberServiceImpl implements MemberService{
         }
 
         Member member = optionalMember.get();
+        member.setLastLoginDate(LocalDateTime.now());
+
+        memberRepository.save(member);
 
         List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
 
@@ -134,8 +140,8 @@ public class MemberServiceImpl implements MemberService{
             grantedAuthorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
         }
 
-        System.out.println(member.getPassword());
-        System.out.println(member.getUserId());
+
+
         return new User(member.getUserId(),member.getPassword(),grantedAuthorities);
     }
 

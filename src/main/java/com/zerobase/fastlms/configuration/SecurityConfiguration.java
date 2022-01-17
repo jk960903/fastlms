@@ -1,5 +1,6 @@
 package com.zerobase.fastlms.configuration;
 
+import com.zerobase.fastlms.member.Service.LoginHistoryService;
 import com.zerobase.fastlms.member.Service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -19,6 +20,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     private final MemberService memberService;
 
+    private final LoginHistoryService loginHistoryService;
+
     @Bean
     UserAuthenticationFailureHandler getFailureHandler(){
         return new UserAuthenticationFailureHandler();
@@ -28,6 +31,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     PasswordEncoder getPasswordEncoder(){
         return new BCryptPasswordEncoder();
     }
+
+    @Bean
+    UserAuthenticationSuccessHandler getSucceccHandler() {return new UserAuthenticationSuccessHandler();}
 
 
     @Override
@@ -54,6 +60,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.formLogin()
                 .loginPage("/member/login")
                 .failureHandler(getFailureHandler())
+                .successHandler(getSucceccHandler())
                 .permitAll();
 
         http.logout()

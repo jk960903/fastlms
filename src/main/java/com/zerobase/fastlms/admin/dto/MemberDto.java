@@ -33,4 +33,6 @@ public class MemberDto {
     long seq;
 
     String userStatus;
+
+    LocalDateTime lastLoginDate;
 }
