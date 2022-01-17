@@ -3,11 +3,12 @@ package main.controller;
 import com.zerobase.fastlms.Component.MailComponents;
 import com.zerobase.fastlms.temp.Example;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RequiredArgsConstructor
-@RestController
+@Controller
 public class MainController {
     private final MailComponents mailComponents;
     @RequestMapping("/")
