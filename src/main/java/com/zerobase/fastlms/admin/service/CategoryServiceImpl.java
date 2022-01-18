@@ -1,18 +1,15 @@
 package com.zerobase.fastlms.admin.service;
 
-import com.zerobase.fastlms.admin.dto.CategoryDto;
+import com.zerobase.fastlms.admin.category.dto.CategoryDto;
 import com.zerobase.fastlms.admin.entity.Category;
 import com.zerobase.fastlms.admin.error.CategoryNameDuplicateException;
-import com.zerobase.fastlms.admin.error.CategoryNotFoundException;
 import com.zerobase.fastlms.admin.model.CategoryDeleteParam;
 import com.zerobase.fastlms.admin.model.CategoryInsertParam;
 import com.zerobase.fastlms.admin.model.CategoryUpdateParam;
 import com.zerobase.fastlms.admin.repository.CategoryRepository;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
