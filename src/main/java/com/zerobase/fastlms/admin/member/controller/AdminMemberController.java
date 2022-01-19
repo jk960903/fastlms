@@ -1,5 +1,6 @@
 package com.zerobase.fastlms.admin.member.controller;
 
+import com.zerobase.fastlms.admin.course.controller.BaseController;
 import com.zerobase.fastlms.admin.dto.MemberDto;
 import com.zerobase.fastlms.admin.model.MemberParam;
 import com.zerobase.fastlms.admin.model.MemberStatusInput;
@@ -20,7 +21,7 @@ import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
-public class AdminMemberController {
+public class AdminMemberController extends BaseController {
 
     private final MemberService memberService;
 
@@ -40,9 +41,9 @@ public class AdminMemberController {
         }
 
         String queryString = memberParam.getQueryString();
-        PageUtil pageUtil = new PageUtil(totalCount,memberParam.getPageSize(), memberParam.getPageIndex(), queryString);
 
-        model.addAttribute("paper",pageUtil);
+        String paperHtml = getPaperHtml(totalCount,memberParam.getPageSize(),memberParam.getPageIndex(),queryString);
+        model.addAttribute("paper",paperHtml);
         model.addAttribute("list",members);
         model.addAttribute("totalCount",totalCount);
         return "/admin/member/list";
