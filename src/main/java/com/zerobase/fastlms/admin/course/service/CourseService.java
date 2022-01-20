@@ -2,6 +2,7 @@ package com.zerobase.fastlms.admin.course.service;
 
 import com.zerobase.fastlms.admin.course.dto.CourseDto;
 import com.zerobase.fastlms.admin.course.param.CourseAddInputParam;
+import com.zerobase.fastlms.admin.course.param.CourseDeleteParam;
 import com.zerobase.fastlms.admin.course.param.CourseListParam;
 
 import java.time.LocalDate;
@@ -39,4 +40,6 @@ public interface CourseService {
      */
     boolean set(CourseAddInputParam parameter);
 
+
+    boolean delete(CourseDeleteParam parameter);
 }

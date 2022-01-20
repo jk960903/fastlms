@@ -18,7 +18,7 @@ import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
-public class AdminCourseController extends BaseController{
+public class CourseController extends BaseController{
 
     private final CourseService courseService;
 

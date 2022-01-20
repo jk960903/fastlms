@@ -41,6 +41,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
         http.csrf().disable();
 
+        http.headers().frameOptions().sameOrigin();
         //페이지의 권한 설정 가능
         http.authorizeRequests()
                 .antMatchers("/"

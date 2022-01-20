@@ -58,7 +58,7 @@
                 var checked = $(this).is(':checked');
 
 
-                $('#dataLIst input[type=checkbox]').each(function(k, v) {
+                $('#dataList input[type=checkbox]').each(function(k, v) {
                     $(this).prop('checked', checked);
                 });
 
@@ -67,7 +67,10 @@
 
             $('#deleteButton').on('click', function() {
 
-                var $checked = $('#dataLIst input[type=checkbox]:checked');
+                const $checked = $('#dataList input[type=checkbox]:checked');
+
+                console.log($checked);
+
                 if ($checked.length < 1) {
                     alert(' 삭제할 데이터를 선택해 주세요. ');
                     return false;
@@ -77,7 +80,7 @@
                     return false;
                 }
 
-                var idList = [];
+                const idList = [];
                 $.each($checked, function(k, v) {
                     idList.push($(this).val());
                 });
