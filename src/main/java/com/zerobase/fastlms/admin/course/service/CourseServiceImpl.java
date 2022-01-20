@@ -4,6 +4,7 @@ import com.zerobase.fastlms.admin.course.dto.CourseDto;
 import com.zerobase.fastlms.admin.course.entity.Course;
 import com.zerobase.fastlms.admin.course.mapper.CourseMapper;
 import com.zerobase.fastlms.admin.course.param.CourseAddInputParam;
+import com.zerobase.fastlms.admin.course.param.CourseDeleteParam;
 import com.zerobase.fastlms.admin.course.param.CourseListParam;
 import com.zerobase.fastlms.admin.course.repository.CourseRepository;
 import lombok.RequiredArgsConstructor;
@@ -26,16 +27,16 @@ public class CourseServiceImpl implements CourseService{
     private final CourseMapper courseMapper;
 
     private LocalDate getLocalDate(String value){
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-mm-dd");
+        DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE;
 
         LocalDate localDate = null;
         try{
-            localDate = LocalDate.parse(value,formatter);
+            return LocalDate.parse(value,formatter);
         }catch(Exception e){
-            return null;
+
         }
 
-        return localDate;
+        return null;
     }
 
     @Override
@@ -68,7 +69,7 @@ public class CourseServiceImpl implements CourseService{
             int i = 0 ;
             for(CourseDto x : list){
                 x.setTotalCount(totalCount);
-                x.setSeq(totalCount - courseListParam.getPageStart() -1);
+                x.setSeq(totalCount - courseListParam.getPageStart() -1-i);
                 i++;
             }
         }
@@ -92,6 +93,8 @@ public class CourseServiceImpl implements CourseService{
 
         Course course = optionalCourse.get();
 
+
+
         course.setCategoryId(parameter.getCategoryId());
         course.setSubject(parameter.getSubject());
         course.setContents(parameter.getContents());
@@ -103,7 +106,32 @@ public class CourseServiceImpl implements CourseService{
         course.setUpdateDate(LocalDateTime.now());
         course.setSalePrice(parameter.getSalePrice());
 
+        courseRepository.save(course);
 
         return true;
+    }
+
+    @Override
+    public boolean delete(CourseDeleteParam parameter) {
+
+        List<Long> idList= parameter.getIdList();
+
+        for(Long id : idList){
+
+            Optional<Course> optionalCourse = courseRepository.findById(id);
+
+            if(optionalCourse.isEmpty()){
+                continue;
+            }
+
+            Course course = optionalCourse.get();
+
+            courseRepository.delete(course);
+
+        }
+
+
+        return true;
+
     }
 }
