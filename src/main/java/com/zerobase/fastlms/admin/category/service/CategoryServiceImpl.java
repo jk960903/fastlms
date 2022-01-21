@@ -1,12 +1,16 @@
-package com.zerobase.fastlms.admin.service;
+package com.zerobase.fastlms.admin.category.service;
 
 import com.zerobase.fastlms.admin.category.dto.CategoryDto;
+import com.zerobase.fastlms.admin.category.repository.CategoryRepository;
+import com.zerobase.fastlms.admin.course.dto.CourseDto;
+import com.zerobase.fastlms.admin.course.param.CourseListParam;
+import com.zerobase.fastlms.admin.course.repository.CourseRepository;
 import com.zerobase.fastlms.admin.entity.Category;
 import com.zerobase.fastlms.admin.error.CategoryNameDuplicateException;
 import com.zerobase.fastlms.admin.model.CategoryDeleteParam;
 import com.zerobase.fastlms.admin.model.CategoryInsertParam;
 import com.zerobase.fastlms.admin.model.CategoryUpdateParam;
-import com.zerobase.fastlms.admin.repository.CategoryRepository;
+import com.zerobase.fastlms.category.mapper.CategoryMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -21,6 +25,9 @@ public class CategoryServiceImpl implements CategoryService{
 
     private final CategoryRepository categoryRepository;
 
+    private final CourseRepository courseRepository;
+
+    private final CategoryMapper categoryMapper;
     private Sort sortbySortValueDESC(){
 
         return Sort.by(Sort.Direction.DESC,"sortValue");
@@ -83,4 +90,10 @@ public class CategoryServiceImpl implements CategoryService{
 
         return true;
     }
+
+    @Override
+    public List<CategoryDto> frontList(CategoryDto parameter) {
+        return categoryMapper.selectList(parameter);
+    }
+
 }

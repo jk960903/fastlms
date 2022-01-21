@@ -13,29 +13,32 @@ import java.util.List;
 @Builder
 public class CategoryDto {
 
-    private Long id;
-
+    private long id;
     private String categoryName;
-
-    private Integer sortValue;
-
+    private int sortValue;
     private boolean usingYn;
 
-    public static List<CategoryDto> of(List<Category> categories){
-        if(categories != null ){
+
+    //ADD COLUMNS
+    private int courseCount;
+
+
+    public static List<CategoryDto> of (List<Category> categories) {
+        if (categories != null) {
             List<CategoryDto> categoryList = new ArrayList<>();
-            for(Category x : categories){
+            for(Category x : categories) {
                 categoryList.add(of(x));
             }
             return categoryList;
         }
+
         return null;
     }
 
-    public static CategoryDto of(Category category){
+    public static CategoryDto of(Category category) {
         return CategoryDto.builder()
-                .categoryName(category.getCategoryName())
                 .id(category.getId())
+                .categoryName(category.getCategoryName())
                 .sortValue(category.getSortValue())
                 .usingYn(category.isUsingYn())
                 .build();
