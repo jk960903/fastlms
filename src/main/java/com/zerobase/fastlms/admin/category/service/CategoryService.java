@@ -1,6 +1,7 @@
-package com.zerobase.fastlms.admin.service;
+package com.zerobase.fastlms.admin.category.service;
 
 import com.zerobase.fastlms.admin.category.dto.CategoryDto;
+import com.zerobase.fastlms.admin.course.dto.CourseDto;
 import com.zerobase.fastlms.admin.model.CategoryDeleteParam;
 import com.zerobase.fastlms.admin.model.CategoryInsertParam;
 import com.zerobase.fastlms.admin.model.CategoryUpdateParam;
@@ -30,4 +31,11 @@ public interface CategoryService {
      * @return
      */
     boolean delete(CategoryDeleteParam categoryDeleteParam);
+
+    /**
+     * 프론트 카테고리 정보
+     * @param categoryDto
+     * @return
+     */
+    public List<CategoryDto> frontList(CategoryDto parameter);
 }

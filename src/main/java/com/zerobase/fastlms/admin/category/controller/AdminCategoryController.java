@@ -4,7 +4,7 @@ import com.zerobase.fastlms.admin.category.dto.CategoryDto;
 import com.zerobase.fastlms.admin.model.CategoryDeleteParam;
 import com.zerobase.fastlms.admin.model.CategoryInsertParam;
 import com.zerobase.fastlms.admin.model.CategoryUpdateParam;
-import com.zerobase.fastlms.admin.service.CategoryService;
+import com.zerobase.fastlms.admin.category.service.CategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

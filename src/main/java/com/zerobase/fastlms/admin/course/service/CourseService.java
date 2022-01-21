@@ -1,9 +1,12 @@
 package com.zerobase.fastlms.admin.course.service;
 
 import com.zerobase.fastlms.admin.course.dto.CourseDto;
+import com.zerobase.fastlms.admin.course.model.ServiceResult;
 import com.zerobase.fastlms.admin.course.param.CourseAddInputParam;
 import com.zerobase.fastlms.admin.course.param.CourseDeleteParam;
 import com.zerobase.fastlms.admin.course.param.CourseListParam;
+import com.zerobase.fastlms.course.model.CourseDetailParam;
+import com.zerobase.fastlms.course.model.TakeCourseInput;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -42,4 +45,21 @@ public interface CourseService {
 
 
     boolean delete(CourseDeleteParam parameter);
+
+
+    /**
+     *  프론트 강의 목록
+     * @param courseListParam
+     * @return
+     */
+    List<CourseDto> frontList(CourseListParam courseListParam);
+
+    CourseDto frontDetail(CourseDetailParam parameter);
+
+    /**
+     * 수강신청
+     * @param parameter
+     * @return
+     */
+    ServiceResult req(TakeCourseInput parameter);
 }

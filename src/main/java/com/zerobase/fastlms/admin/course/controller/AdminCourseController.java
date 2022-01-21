@@ -5,7 +5,7 @@ import com.zerobase.fastlms.admin.course.param.CourseAddInputParam;
 import com.zerobase.fastlms.admin.course.param.CourseDeleteParam;
 import com.zerobase.fastlms.admin.course.param.CourseListParam;
 import com.zerobase.fastlms.admin.course.service.CourseService;
-import com.zerobase.fastlms.admin.service.CategoryService;
+import com.zerobase.fastlms.admin.category.service.CategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
