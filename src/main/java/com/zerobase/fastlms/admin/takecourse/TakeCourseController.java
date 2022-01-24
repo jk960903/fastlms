@@ -25,7 +25,7 @@ public class TakeCourseController {
 
  //   private final CategoryService categoryService;
 
-    private final TakeCourseService takeCourseService;
+    private final TakeCourseService  takeCourseService;
 
 
     @GetMapping("/admin/takecourse/list.do")
@@ -36,6 +36,7 @@ public class TakeCourseController {
         List<CourseDto> courseDtoList = courseService.list(new CourseListParam(parameter.getCategoryId()));
         model.addAttribute("list",takeCourseDtos);
         model.addAttribute("courseList",courseDtoList);
+
         return "admin/takecourse/list";
     }
 

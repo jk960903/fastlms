@@ -1,6 +1,7 @@
 package com.zerobase.fastlms.member.controller;
 
 import com.zerobase.fastlms.admin.dto.MemberDto;
+import com.zerobase.fastlms.admin.model.UpdateUserPasswordInput;
 import com.zerobase.fastlms.member.Service.LoginHistoryService;
 import com.zerobase.fastlms.member.Service.MemberService;
 import com.zerobase.fastlms.member.model.MemberInput;
@@ -125,5 +126,27 @@ public class MemberController {
         model.addAttribute("detail",memberDto);
 
         return "/member/info";
+    }
+
+
+    @GetMapping("/member/password")
+    public String memberPassword(Model model , Principal principal){
+        String userId = principal.getName();
+
+        MemberDto detail = memberService.detail(userId);
+
+        model.addAttribute("detail",detail);
+
+        return "member/password";
+    }
+
+    @PostMapping("/member/password")
+    public String memberPasswordSubmit(Model model , Principal principal, UpdateUserPasswordInput parameter){
+        String userId = principal.getName();
+
+        parameter.setUserId(userId);
+        boolean result = memberService.updatePassword(parameter);
+
+        return "member/info";
     }
 }

@@ -35,6 +35,8 @@ public class MemberDto {
 
         private String regdateText;
 
+        private String updateDateText;
+
         //관리자 여부
         //회원에 따르 ROLE 을 지정할것이냐
         // 회원 레벨이 회원 / 준회원 / 특별회원 등등 / 관리자

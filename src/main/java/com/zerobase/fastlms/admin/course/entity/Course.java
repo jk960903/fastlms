@@ -42,4 +42,6 @@ public class Course {
     private LocalDateTime regdate;
 
     private LocalDateTime updateDate;
+
+    private String filename;
 }
