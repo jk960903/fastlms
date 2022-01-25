@@ -7,15 +7,23 @@ import com.zerobase.fastlms.admin.course.param.CourseListParam;
 import com.zerobase.fastlms.admin.course.service.CourseService;
 import com.zerobase.fastlms.admin.category.service.CategoryService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
+@Slf4j
 @Controller
 @RequiredArgsConstructor
 public class AdminCourseController extends BaseController{
@@ -71,9 +79,62 @@ public class AdminCourseController extends BaseController{
         return "admin/course/add";
     }
 
+    private String getNewSaveFile(String basePath,String originalFileName){
+
+
+        String[] dirs = {
+                String.format("%s/%d",basePath,LocalDateTime.now().getYear()),
+                String.format("%s/%d/%02d/",basePath,
+                    LocalDateTime.now().getYear(),LocalDateTime.now().getMonthValue()),
+                String.format("%s/%d/%02d/%03d/",basePath,LocalDateTime.now().getYear(),LocalDateTime.now().getMonthValue()
+                    ,LocalDateTime.now().getDayOfMonth())
+
+        };
+
+        for(String dir : dirs){
+            File file = new File(dir);
+            if(!file.isDirectory()){
+                file.mkdir();
+            }
+        }
+
+        String fileExtension = "";
+
+        if(originalFileName != null){
+            int dotPos = originalFileName.lastIndexOf(".");
+            if(dotPos > -1 ){
+                fileExtension = originalFileName.substring(dotPos+1);
+            }
+
+        }
+        String uuid = UUID.randomUUID().toString().replaceAll("-","");
+        String newFileName = String.format("%s%s",dirs[2],uuid);
+        if(fileExtension.length() > 0){
+            newFileName +="." + fileExtension;
+        }
+
+        return newFileName;
+    }
+
     @PostMapping(value = {"/admin/course/add.do", "/admin/course/edit.do"})
     public String addSubmit(Model model, HttpServletRequest request
-            , CourseAddInputParam parameter) {
+            , CourseAddInputParam parameter, MultipartFile file) {
+
+        if(file != null){
+            //String basePath = ""
+            String basePath = "/Users/leejunkyu/Desktop/제로베이스/files";
+            String orignalFileName = file.getOriginalFilename();
+            String saveFilename = getNewSaveFile(basePath,orignalFileName);
+            parameter.setFileName(saveFilename);
+            try{
+                File newFile = new File(saveFilename);
+
+                FileCopyUtils.copy(file.getInputStream(),new FileOutputStream(newFile));
+
+            }catch(Exception e){
+                log.info(e.getMessage());
+            }
+        }
 
         boolean editMode = request.getRequestURI().contains("/edit.do");
 

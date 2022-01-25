@@ -25,4 +25,6 @@ public class CourseAddInputParam {
     private String saleEndDate;
     private LocalDateTime regdate;//등록일(추가날짜)
     private LocalDateTime updateDate;//수정일(수정날짜)
+
+    private String fileName;
 }

@@ -1,5 +1,7 @@
 package com.zerobase.fastlms.member.controller;
 
+import com.zerobase.fastlms.admin.dto.MemberDto;
+import com.zerobase.fastlms.admin.model.UpdateUserPasswordInput;
 import com.zerobase.fastlms.member.Service.LoginHistoryService;
 import com.zerobase.fastlms.member.Service.MemberService;
 import com.zerobase.fastlms.member.model.MemberInput;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.security.Principal;
 
 @Controller
 @RequiredArgsConstructor
@@ -81,10 +84,6 @@ public class MemberController {
         return "member/email_auth";
     }
 
-    @GetMapping("/member/info")
-    public String memberInfo(HttpServletRequest request){
-        return "/member/member_info";
-    }
 
     @GetMapping("/member/find/reset_password")
     public String resetPassword(Model model,HttpServletRequest request){
@@ -115,5 +114,39 @@ public class MemberController {
 
         model.addAttribute("result",result);
         return "/member/find/reset_password_result";
+    }
+
+    @GetMapping("/member/info")
+    public String memberInfo(Principal principal,Model model){
+
+        String userId = principal.getName();
+
+        MemberDto memberDto = memberService.detail(userId);
+
+        model.addAttribute("detail",memberDto);
+
+        return "/member/info";
+    }
+
+
+    @GetMapping("/member/password")
+    public String memberPassword(Model model , Principal principal){
+        String userId = principal.getName();
+
+        MemberDto detail = memberService.detail(userId);
+
+        model.addAttribute("detail",detail);
+
+        return "member/password";
+    }
+
+    @PostMapping("/member/password")
+    public String memberPasswordSubmit(Model model , Principal principal, UpdateUserPasswordInput parameter){
+        String userId = principal.getName();
+
+        parameter.setUserId(userId);
+        boolean result = memberService.updatePassword(parameter);
+
+        return "member/info";
     }
 }

@@ -1,11 +1,10 @@
 package com.zerobase.fastlms.course.entity;
 
+import com.zerobase.fastlms.admin.course.entity.Course;
+import com.zerobase.fastlms.member.entity.Member;
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Getter
@@ -32,4 +31,12 @@ public class TakeCourse implements TakeCourseCode{
 
     LocalDateTime regdate;
 
+
+    @OneToOne
+    @JoinColumn(name="courseId",referencedColumnName = "id",insertable = false , updatable = false)
+    Course course;
+
+    @OneToOne
+    @JoinColumn(name="userId" , referencedColumnName = "userId",insertable = false, updatable = false )
+    Member member;
 }
