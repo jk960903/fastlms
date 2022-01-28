@@ -34,12 +34,7 @@ public class MainController {
 
     @RequestMapping("/test")
     public String test(){
-        Example example = new Example();
-        try {
-            example.add();
-        }catch(Exception e){
-            e.printStackTrace();
-        }
+
         return "Index";
     }
 
