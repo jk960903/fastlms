@@ -25,7 +25,7 @@ public class Member implements MemberCode{
 
     private String password;
 
-    private LocalDateTime Regdate;
+    private LocalDateTime regdate;
 
     private boolean emailAuthYn;
 

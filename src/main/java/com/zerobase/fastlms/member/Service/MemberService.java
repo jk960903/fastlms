@@ -52,5 +52,5 @@ public interface MemberService extends UserDetailsService {
 
     boolean updatePassword(UpdateUserPasswordInput updateUserPasswordInput);
 
-
+    void temp();
 }

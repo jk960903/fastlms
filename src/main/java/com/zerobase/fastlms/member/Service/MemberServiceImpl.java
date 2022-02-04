@@ -64,7 +64,7 @@ public class MemberServiceImpl implements MemberService{
                 userName(parameter.getUserName()).
                 phone(parameter.getPhone()).
                 password(encPassword)
-                .Regdate(LocalDateTime.now())
+                .regdate(LocalDateTime.now())
                 .emailAuthYn(false)
                 .emailAuthKey(uuid)
                 .userStatus(Member.MEMBER_STATUS_REQ)
@@ -321,5 +321,11 @@ public class MemberServiceImpl implements MemberService{
         memberRepository.save(member);
 
         return true;
+    }
+
+    public void temp(){
+        Optional<List<Member>> list = memberRepository.findByRegdateLessThan(LocalDateTime.now());
+
+        int num = 0 ;
     }
 }
