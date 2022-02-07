@@ -3,6 +3,7 @@ package com.zerobase.fastlms.main;
 import com.zerobase.fastlms.Component.MailComponents;
 import com.zerobase.fastlms.admin.banner.entity.Banner;
 import com.zerobase.fastlms.admin.banner.service.BannerService;
+import com.zerobase.fastlms.member.Service.MemberService;
 import com.zerobase.fastlms.temp.Example;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -14,11 +15,13 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RequiredArgsConstructor
-@Controller
+@RestController
 public class MainController {
     private final MailComponents mailComponents;
 
     private final BannerService bannerService;
+
+    private final MemberService memberService;
     @GetMapping("")
     public String index(Model model){
         //mailComponents.sendMailTest();
@@ -34,14 +37,15 @@ public class MainController {
 
     @RequestMapping("/test")
     public String test(){
-        Example example = new Example();
-        try {
-            example.add();
-        }catch(Exception e){
-            e.printStackTrace();
-        }
+
         return "Index";
     }
 
+    @RequestMapping("/test1")
+    public String test1(){
+        memberService.temp();
+
+        return "";
+    }
 
 }

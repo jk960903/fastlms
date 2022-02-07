@@ -1,4 +1,8 @@
 spring:
+  jackson:
+    property-naming-strategy: SNAKE_CASE
+    default-property-inclusion: non_null
+
   thymeleaf:
     suffix: .html
     prefix: classpath:/templates/
@@ -35,4 +39,5 @@ mybatis:
   configuration:
     map-underscore-to-camel-case: true #스네이크 표기법을 카멜표기법으로 표현가능하게
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
 
