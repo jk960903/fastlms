@@ -3,6 +3,7 @@ package com.zerobase.fastlms.notice.service;
 import com.zerobase.fastlms.notice.model.NoticeModel;
 import com.zerobase.fastlms.notice.param.AddNoticeParam;
 import com.zerobase.fastlms.notice.param.GetNoticeParam;
+import com.zerobase.fastlms.notice.param.UpdateNoticeParam;
 import com.zerobase.fastlms.notice.repository.NoticeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -28,14 +29,57 @@ public class NoticeServiceImpl implements NoticeService{
         if(optional.isEmpty()){
             return null;
         }
+        NoticeModel noticeModel = optional.get();
+        noticeModel.setViewCount(noticeModel.getViewCount() + 1);
 
-        return optional.get();
+        noticeRepository.save(noticeModel);
+
+
+        return noticeModel;
     }
 
     @Override
-    public void addNotice(AddNoticeParam addNoticeParam) {
+    public int addNotice(AddNoticeParam addNoticeParam) {
         NoticeModel noticeModel = NoticeModel.of(addNoticeParam);
 
-        noticeRepository.save(noticeModel);
+        noticeModel = noticeRepository.save(noticeModel);
+
+        return noticeModel.getId();
     }
+
+    @Override
+    public NoticeModel addNoticeLikeCount(GetNoticeParam getNoticeParam) {
+        Optional<NoticeModel> optional = noticeRepository.findById(getNoticeParam.getId());
+
+        if(optional.isEmpty()){
+            return null;
+        }
+        NoticeModel noticeModel = optional.get();
+        noticeModel.setLikeNum(noticeModel.getLikeNum() + 1);
+
+        noticeRepository.save(noticeModel);
+
+
+        return noticeModel;
+    }
+
+    @Override
+    public NoticeModel updateNotice(UpdateNoticeParam updateNoticeParam) {
+        Optional<NoticeModel> optional = noticeRepository.findById(updateNoticeParam.getId());
+
+        if(optional.isEmpty()){
+            return null;
+        }
+
+        NoticeModel noticeModel = optional.get();
+
+        noticeModel.setContent(updateNoticeParam.getContent());
+        noticeModel.setTitle(updateNoticeParam.getTitle());
+
+        noticeRepository.save(noticeModel);
+
+        return noticeModel;
+    }
+
+
 }

@@ -3,6 +3,7 @@ package com.zerobase.fastlms.notice.service;
 import com.zerobase.fastlms.notice.model.NoticeModel;
 import com.zerobase.fastlms.notice.param.AddNoticeParam;
 import com.zerobase.fastlms.notice.param.GetNoticeParam;
+import com.zerobase.fastlms.notice.param.UpdateNoticeParam;
 
 import java.util.List;
 
@@ -12,5 +13,10 @@ public interface NoticeService {
 
     NoticeModel getNotice(GetNoticeParam getNoticeParam);
 
-    void addNotice(AddNoticeParam addNoticeParam);
+    int addNotice(AddNoticeParam addNoticeParam);
+
+    NoticeModel addNoticeLikeCount(GetNoticeParam getNoticeParam);
+
+    NoticeModel updateNotice(UpdateNoticeParam updateNoticeParam);
+
 }
