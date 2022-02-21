@@ -31,6 +31,8 @@ public class OrderService {
         checkOnSale(book);
         checkEnoughStock(bookStock);
 
+
+
         bookStock.decreaseStock();
         bookStockRepository.save(bookStock);
         BookOrder bookOrder = bookOrderRepository.save(createBookOrder(user, book));

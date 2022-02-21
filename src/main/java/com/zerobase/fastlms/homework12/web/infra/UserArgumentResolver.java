@@ -1,6 +1,7 @@
 package com.zerobase.fastlms.homework12.web.infra;
 
 import com.zerobase.fastlms.homework12.domain.entity.User;
+import com.zerobase.fastlms.homework12.domain.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.MethodParameter;
@@ -12,6 +13,7 @@ import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Optional;
 
 @Slf4j
 @Component
@@ -20,6 +22,8 @@ public class UserArgumentResolver implements HandlerMethodArgumentResolver {
 
     private final String USER_HEADER = "X-USER-ID";
 
+
+    private final UserRepository userRepository;
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
         System.out.println(parameter.getParameterAnnotations());
@@ -35,9 +39,17 @@ public class UserArgumentResolver implements HandlerMethodArgumentResolver {
         if(header == null){
             throw new ZeroBaseException2(ExceptionCode.INVALID_HEADER);
         }
-        String Id = webRequest.getParameter("bookId");
-        Object object = parameter.getParameterAnnotation(RequestBody.class);
+        User user = null;
 
-        return null;
+        if(webRequest.getParameter("id") !=null){
+
+            Optional<User> optionalUser = userRepository.findById(Long.parseLong(webRequest.getParameter("id")));
+
+            if(optionalUser.isPresent()){
+                user = optionalUser.get();
+            }
+
+        }
+        return user;
     }
 }

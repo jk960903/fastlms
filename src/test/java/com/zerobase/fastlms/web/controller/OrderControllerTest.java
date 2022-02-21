@@ -1,11 +1,14 @@
 package com.zerobase.fastlms.web.controller;
 
 
+import com.zerobase.fastlms.homework12.domain.entity.User;
 import com.zerobase.fastlms.homework12.web.controller.model.BookOrderRequest;
 import com.zerobase.fastlms.homework12.web.infra.ExceptionCode;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.test.web.servlet.RequestBuilder;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -44,5 +47,26 @@ class OrderControllerTest extends AbstractMockMvcTestBoilerplate {
                 .andExpect(content().contentType(APPLICATION_JSON))
                 .andExpect(jsonPath("$.error_code").value(ExceptionCode.BOOK_IS_NOT_SALE.name()))
                 .andExpect(jsonPath("$.message").exists());
+    }
+
+    @Test
+    @DisplayName("알규먼트 테스트")
+    void ArgumentResolverTest() throws Exception {
+
+        MultiValueMap<String,String> map = new LinkedMultiValueMap<>();
+
+        map.add("id","1");
+        map.add("name","김제로");
+
+        RequestBuilder requestBuilder = post("/api/book/orderargument").params(map)
+                .contentType(APPLICATION_JSON)
+                .header("X-USER-ID", MOCK_USER_ID)
+                .content(toJson(BookOrderRequest.of(3L)));
+
+
+        mvc.perform(requestBuilder)
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(APPLICATION_JSON))
+                .andExpect(jsonPath("$.id").exists());
     }
 }

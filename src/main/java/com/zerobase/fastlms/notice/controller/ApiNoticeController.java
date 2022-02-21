@@ -2,13 +2,12 @@ package com.zerobase.fastlms.notice.controller;
 
 import com.zerobase.fastlms.notice.model.NoticeModel;
 import com.zerobase.fastlms.notice.param.AddNoticeParam;
+import com.zerobase.fastlms.notice.param.AddNoticeViewCountParam;
 import com.zerobase.fastlms.notice.param.GetNoticeParam;
 import com.zerobase.fastlms.notice.param.UpdateNoticeParam;
 import com.zerobase.fastlms.notice.service.NoticeService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -57,4 +56,6 @@ public class ApiNoticeController {
     public NoticeModel updateNotice(HttpServletRequest request, UpdateNoticeParam param) throws Exception{
         return noticeService.updateNotice(param);
     }
+
+
 }
