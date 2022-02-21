@@ -27,4 +27,9 @@ public class OrderController {
                 .orderId(orderId)
                 .build();
     }
+
+    @PostMapping("/api/book/orderargument")
+    public User orderTemp(User user){
+        return user;
+    }
 }
